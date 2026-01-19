@@ -1,9 +1,12 @@
-import express from "express";
+import express from "express"
 import userRoutes from "./src/routes/user.routes.js"
+import "dotenv/config"
 
 const app = express();
 
 app.use(express.json());
+
+const port = process.env.PORT || 3000;
 
 app.get("/", (_req, res) => {
     res.status(200).send("<h1 style='color: red;'>Hola Mundo!</h1>");
@@ -28,8 +31,11 @@ app.get("/health", (_req, res) => {
 
 app.use('/user', userRoutes);
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
-    console.log("http://localhost:3000");
-});
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+    console.log(`http://localhost:${port}`);
 
+    const { SUPPORT_EMAILS } = process.env;
+    const emails = SUPPORT_EMAILS.split(",");
+    console.log("Soporte técnico: ", emails);
+});
